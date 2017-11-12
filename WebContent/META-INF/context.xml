@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <Resource name="jdbc/parkingDB"
+              auth="Container"
+              type="javax.sql.DataSource"
+              username="root"
+              password="admin"
+              driverClassName="com.mysql.cj.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/parkingdb"
+              validationQuery="select 1 from dual"
+              initialSize="2"
+              maxActive="10"
+              minIdle="2"
+              maxIdle="4"
+              maxTotal="8" />
+</Context>
