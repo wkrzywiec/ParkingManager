@@ -1,4 +1,5 @@
 <%@page import="java.sql.*"%>
+<%@page import="utils.DatabaseConnUtils"%>
 <%@page import="com.mysql.cj.jdbc.*"%>
 <%@page import="com.mysql.cj.jdbc.PreparedStatement"%>
 
@@ -12,11 +13,10 @@
 </head>
 <body>
 <%
-Connection con;
-Class.forName("com.mysql.cj.jdbc.Driver");
-con=(Connection)DriverManager.getConnection("jdbc:mysql://localhost:3306/parkingdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "admin");
+
+Connection con = DatabaseConnUtils.getConnection();
 PreparedStatement ps=(PreparedStatement)con.prepareStatement("SELECT * from users");
-ResultSet rs=ps.executeQuery();
+ResultSet rs= ps.executeQuery();
 while(rs.next()){
 	String username=rs.getString("user_login");
 	out.println("Username "+username+"<hr>");

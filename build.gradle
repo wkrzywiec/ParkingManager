@@ -40,9 +40,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 }
 
-
-tomcatRun.configFile = file('/WebContent/META-INF/context.xml')
-
 tomcat{
 	enableSSL = true
 	contextPath = '/ParkingManager'
