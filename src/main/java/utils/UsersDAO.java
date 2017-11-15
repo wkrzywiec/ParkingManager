@@ -22,56 +22,80 @@ public class UsersDAO {
 			statment.executeUpdate();
 			return true;
 			
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
 	}
 	
-	public static int findUserId(String userLogin) throws ClassNotFoundException, SQLException{
+	public static int findUserId(String userLogin){
 		
 		String sql = "select USER_ID from USERS where USER_LOGIN = ?";
 		
-		PreparedStatement statment = DatabaseConnUtils.getConnection().prepareStatement(sql);
-		statment.setString(1, userLogin);
-		
-		ResultSet rs = statment.executeQuery();
-		
-		if (rs.next()) {
-			int userId = rs.getInt("USER_ID");
-	        return userId;
-	    }
-		return 0;
+		PreparedStatement statment;
+		try {
+			statment = DatabaseConnUtils.getConnection().prepareStatement(sql);
+			statment.setString(1, userLogin);
+			
+			ResultSet rs = statment.executeQuery();
+			
+			if (rs.next()) {
+				int userId = rs.getInt("USER_ID");
+		        return userId;
+		    }
+			return 0;
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			return 0;
+		}
 	}
 	
-	public static boolean isNewUser(String userLogin) throws ClassNotFoundException, SQLException{
+	public static boolean isNewUser(String userLogin){
 		
 		String sql = "select USER_ID from USERS where USER_LOGIN = ?";
 		
-		PreparedStatement statment = DatabaseConnUtils.getConnection().prepareStatement(sql);
-		statment.setString(1, userLogin);
-		
-		ResultSet rs = statment.executeQuery();
-		
-		if (rs.next()) {
-	        return false;
-	    }
-		return true;
+		PreparedStatement statment;
+		try {
+			statment = DatabaseConnUtils.getConnection().prepareStatement(sql);
+			statment.setString(1, userLogin);
+			
+			ResultSet rs = statment.executeQuery();
+			
+			if (rs.next()) {
+		        return false;
+		    }
+			return true;
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			return true;
+		}
 	}
 	
-	public static int getUserType(String userLogin, String userPassword) throws ClassNotFoundException, SQLException{
+	public static int getUserType(String userLogin, String userPassword){
 		
 		String sql = "select USER_TYPE from USERS where USER_LOGIN = ? and USER_PASSWORD = ?";
 		System.out.println("/" + userLogin +"/" + userPassword + "/");
-		PreparedStatement statment = DatabaseConnUtils.getConnection().prepareStatement(sql);
-		statment.setString(1, userLogin);
-		statment.setString(2, userPassword);
-		
-		ResultSet rs = statment.executeQuery();
-		
-		if (rs.next()) {
-	        return rs.getInt("USER_TYPE");
-	    }
-		return 0;
+		PreparedStatement statment;
+		try {
+			statment = DatabaseConnUtils.getConnection().prepareStatement(sql);
+			
+			statment.setString(1, userLogin);
+			statment.setString(2, userPassword);
+			
+			ResultSet rs = statment.executeQuery();
+			
+			if (rs.next()) {
+		        return rs.getInt("USER_TYPE");
+		    }
+			return 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
 }
+
+

@@ -5,6 +5,7 @@ public class Driver {
 	public static final int DRIVER_REGULAR = 1;
 	public static final int DRIVER_VIP = 2;
 	
+	private int driverId;
 	private int userId;
 	private String driverName;
 	private int driverType;
@@ -19,6 +20,7 @@ public class Driver {
 					String vehicleModel,
 					String vehicleReg){
 		
+		this.driverId = driverId;
 		this.userId = userId;
 		this.driverName = driverName;
 		this.driverType = driverType;
@@ -62,6 +64,14 @@ public class Driver {
 	}
 	public void setVehicleReg(String vehicleReg) {
 		this.vehicleReg = vehicleReg;
+	}
+
+	public int getDriverId() {
+		return driverId;
+	}
+
+	public void setDriverId(int driverId) {
+		this.driverId = driverId;
 	}
 	
 	

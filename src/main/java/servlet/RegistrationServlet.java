@@ -60,23 +60,14 @@ public class RegistrationServlet extends HttpServlet {
 			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/registration.jsp");
 			dispatcher.forward(request, response);	
 		} else {
-			try {
-				isNewUser = UsersDAO.isNewUser(userLogin);
-			} catch (ClassNotFoundException | SQLException e) {
-				errorMessage = "Database connection error, try again.";
-				e.printStackTrace();
-			}
+			
+			isNewUser = UsersDAO.isNewUser(userLogin);
 			
 			if(isNewUser){
 				UsersDAO.addUser(newUser);
 				
-				try {
-					userId = UsersDAO.findUserId(userLogin);
-				} catch (ClassNotFoundException | SQLException e) {
-					errorMessage = "Database connection error, try again.";
-					e.printStackTrace();
-				}
-				
+				userId = UsersDAO.findUserId(userLogin);
+	
 				newDriver.setUserId(userId);
 				DriversDAO.addDriver(newDriver);
 				
@@ -86,11 +77,7 @@ public class RegistrationServlet extends HttpServlet {
 					request.setAttribute("errorMessage", errorMessage);
 					dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/registration.jsp");
 				} else {
-					//dispatcher = request.getRequestDispatcher("Home");
 					dispatcher = this.getServletContext().getRequestDispatcher("/index.jsp");
-					//dispatcher = this.getServletContext().getNamedDispatcher("home");
-					//System.out.println(request.getContextPath());
-					//response.sendRedirect(request.getContextPath() + "/home");
 				}
 			
 				dispatcher.forward(request, response);

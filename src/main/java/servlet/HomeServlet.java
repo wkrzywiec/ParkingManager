@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.Driver;
+import utils.DriversDAO;
 import utils.UsersDAO;
 
 @WebServlet(name = "home",
@@ -30,25 +32,29 @@ public class HomeServlet extends HttpServlet {
 	}
 
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException  {
 		
 		String userLogin = request.getParameter("inputLogin");
 		String userPassword = request.getParameter("inputPassword");
 		int userType = 0;
 		String errorMessage = null;
 		
-		try {
-			userType = UsersDAO.getUserType(userLogin, userPassword);
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-		System.out.println(userType);
+		userType = UsersDAO.getUserType(userLogin, userPassword);
+	
 		RequestDispatcher dispatcher = null;
 		if(userType == 1){
 			dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/owner.jsp");
 		} else if(userType == 2){
 			dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/operator.jsp");
 		} else if(userType == 3){
+			
+			Driver driver = null;
+			driver = DriversDAO.getDriver(userLogin);
+
+			request.setAttribute("driver", driver);
+			long parkingTime = DriversDAO.getParkingTimeSec(driver.getDriverId());
+			request.setAttribute("parkingTime", parkingTime);
+			
 			dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/driver.jsp");
 		} else {
 			errorMessage = "Upsss... There is no user with this login and/or password. Try again!";

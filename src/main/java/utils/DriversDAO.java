@@ -1,6 +1,7 @@
 package utils;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import model.Driver;
@@ -26,9 +27,65 @@ public class DriversDAO {
 			statment.executeUpdate();
 			return true;
 			
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
+		}
+	}
+	
+	public static Driver getDriver(String userLogin){
+		
+		String sql = "select DRIVERS.*  from USERS inner join DRIVERS on USERS.USER_ID = DRIVERS.USER_ID"  +
+					" where USERS.USER_LOGIN = ?";
+		
+		PreparedStatement statment;
+		ResultSet rs = null;
+
+			try {
+				statment = DatabaseConnUtils.getConnection().prepareStatement(sql);
+				statment.setString(1, userLogin);
+				rs = statment.executeQuery();
+				
+				if (rs.next()) {
+					int driverId = rs.getInt("DRIVER_ID");
+					int userId = rs.getInt("USER_ID");
+					String driverName = rs.getString("DRIVER_NAME");
+					int driverType = rs.getInt("DRIVER_TYPE");
+					String vehicleBrand = rs.getString("VEHICLE_BRAND");
+					String vehicleModel = rs.getString("VEHICLE_MODEL");
+					String vehicleReg = rs.getString("VEHICLE_REG");
+					Driver driver = new Driver(userId, driverName, driverType, vehicleBrand, vehicleModel, vehicleReg);
+			        driver.setDriverId(driverId);
+					return driver;
+			    }
+				return null;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return null;
+			}
+			
+	}
+	
+	public static long getParkingTimeSec(int driverId){
+		String sql = 	"select TIMESTAMPDIFF(SECOND,car_logs.DATE_START,CURRENT_TIMESTAMP()) " +
+						"from  drivers inner join car_logs on drivers.driver_id = car_logs.driver_id " +
+						"where car_logs.DATE_STOP is null and drivers.driver_id =  ?";
+		long parkingTimeSec = 0;	
+		PreparedStatement statment;
+		try {
+			statment = DatabaseConnUtils.getConnection().prepareStatement(sql);
+			statment.setInt(1, driverId);
+			
+			ResultSet rs = statment.executeQuery();
+			
+			if (rs.next()) {
+				parkingTimeSec = rs.getLong(1);	
+			}	
+			return parkingTimeSec;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return parkingTimeSec;
 		}
 	}
 }
