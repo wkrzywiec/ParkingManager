@@ -37,6 +37,8 @@ CREATE TABLE payments (
 	primary key(PAYMENT_ID)
 );
 
+SET SQL_SAFE_UPDATES = 0;
+
 insert into users
 	(user_login, user_password, user_type)
 values

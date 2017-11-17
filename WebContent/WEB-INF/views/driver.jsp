@@ -1,9 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
- <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<style>
 		body{
@@ -55,28 +56,52 @@
 			<h1 id="tollLabel">Toll: 0 PLN</h1></center>
 			<p></p>
 			<div class="form-group col-sm-6">
-		   		<button type="button" class="btn btn-success btn-block" name="btn" value="start" id="startBtn" onclick="start()">Start</button>
+		   		<button type="submit" class="btn btn-success btn-block" name="btn" value="start" id="startBtn">Start</button>
 		   	</div>
 		   	<div class="form-group col-sm-6">
-		   		<button type="button" class="btn btn-danger btn-block" name="btn" value="stop" onclick="stop()">Stop</button>
+		   		<button type="submit" class="btn btn-danger btn-block" name="btn" value="stop">Stop</button>
 		   	</div>
 		   	<div>
 				<label>${tollMessage}</label>
 			</div>
-			<div>
-			   <button type="button" class="btn btn-primary btn-block" name="btn">Log out</button>
-			</div>
 		</div> 
 		<div class="col-md-1"></div>
 	</div>
+<div></div>
+<div class="container">
+	<div class="col-md-1"></div>
+	<div class="col-md-10 padded" style="background-color: LightGoldenRodYellow;">
+		<h2 align="center"><b>Your parking history</b></h2>
+		<div class="col-sm-3" align="center"><b>Start time</b></div>
+		<div class="col-sm-3" align="center"><b>Start time</b></div>
+		<div class="col-sm-3" align="center"><b>Parking time [whole hours]</b></div>
+		<div class="col-sm-3" align="center"><b>Toll [PLN]</b></div>
+		<c:forEach items="${carLogList}" var="log">
+			<div class="col-sm-3" align="right">${log.dateStart}</div>
+			<div class="col-sm-3" align="right">${log.dateStop}</div>
+			<div class="col-sm-3" align="right">${log.parkingTimeHour}</div>
+			<fmt:setLocale value="pl_PL"/>
+			<div class="col-sm-3" align="right"><fmt:formatNumber pattern="#,###.##" value = "${log.toll}" /></div>
+		</c:forEach>
+	</div>
+	<div class="col-md-1"></div>
+</div>
+<div class="container">
+	<div class="col-md-1"></div>
+	<div class="col-md-10 padded" style="background-color: LightGoldenRodYellow;">
+		<button type="submit" class="btn btn-primary btn-block" name="btn" value="logout">Log out</button>
+	</div>
+	<div class="col-md-1"></div>
+</div>
 </form>
 <script>
-    var status = ${parkingTime == 0 ? 0 : 1}; //0:stop 1:running
-    var time = ${parkingTime};
+	
+	var status = ${parkingTime == 0 ? 0 : 1}; //0:stop 1:running
+	var time = ${parkingTime};
     window.onload = initialize;
     
     function initialize(){
-    	
+    
     	if(status == 1){
     		document.getElementById("startBtn").disabled = true;
     	} 

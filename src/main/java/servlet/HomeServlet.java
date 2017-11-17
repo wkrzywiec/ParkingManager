@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,9 +10,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import model.CarLog;
 import model.Driver;
 import utils.DriversDAO;
+import utils.ParkingDAO;
 import utils.UsersDAO;
 
 @WebServlet(name = "home",
@@ -41,6 +45,7 @@ public class HomeServlet extends HttpServlet {
 		
 		userType = UsersDAO.getUserType(userLogin, userPassword);
 	
+		HttpSession session = request.getSession();
 		RequestDispatcher dispatcher = null;
 		if(userType == 1){
 			dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/owner.jsp");
@@ -48,13 +53,12 @@ public class HomeServlet extends HttpServlet {
 			dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/operator.jsp");
 		} else if(userType == 3){
 			
-			Driver driver = null;
-			driver = DriversDAO.getDriver(userLogin);
-
-			request.setAttribute("driver", driver);
-			long parkingTime = DriversDAO.getParkingTimeSec(driver.getDriverId());
+			Driver driver = DriversDAO.getDriver(userLogin);
+			session.setAttribute("driver", driver);
+			ArrayList<CarLog> carLogList = ParkingDAO.getParkingHistory(driver.getDriverId(), driver.getDriverType());
+			session.setAttribute("carLogList", carLogList);
+			long parkingTime = ParkingDAO.getParkingTimeSec(driver.getDriverId());
 			request.setAttribute("parkingTime", parkingTime);
-			
 			dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/driver.jsp");
 		} else {
 			errorMessage = "Upsss... There is no user with this login and/or password. Try again!";

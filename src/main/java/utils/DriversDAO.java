@@ -66,26 +66,4 @@ public class DriversDAO {
 			
 	}
 	
-	public static long getParkingTimeSec(int driverId){
-		String sql = 	"select TIMESTAMPDIFF(SECOND,car_logs.DATE_START,CURRENT_TIMESTAMP()) " +
-						"from  drivers inner join car_logs on drivers.driver_id = car_logs.driver_id " +
-						"where car_logs.DATE_STOP is null and drivers.driver_id =  ?";
-		long parkingTimeSec = 0;	
-		PreparedStatement statment;
-		try {
-			statment = DatabaseConnUtils.getConnection().prepareStatement(sql);
-			statment.setInt(1, driverId);
-			
-			ResultSet rs = statment.executeQuery();
-			
-			if (rs.next()) {
-				parkingTimeSec = rs.getLong(1);	
-			}	
-			return parkingTimeSec;
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return parkingTimeSec;
-		}
-	}
 }
