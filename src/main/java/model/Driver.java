@@ -29,6 +29,10 @@ public class Driver {
 		this.vehicleReg = vehicleReg;
 	}
 	
+	public Driver(){
+		
+	}
+	
 	public int getUserId() {
 		return userId;
 	}

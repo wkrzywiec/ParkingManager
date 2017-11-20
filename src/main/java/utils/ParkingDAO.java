@@ -8,6 +8,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import model.CarLog;
+import model.Driver;
+import model.VisitDetails;
 
 public class ParkingDAO {
 	
@@ -131,6 +133,41 @@ public class ParkingDAO {
 			e.printStackTrace();
 			return secondsInDayForEachVisit;
 		}
+	}
+	
+	public static ArrayList<VisitDetails> getDriverListOnParking(){
+		
+		String sql = 	"select D.DRIVER_ID , D.DRIVER_NAME, D.VEHICLE_BRAND, D.VEHICLE_MODEL, D.VEHICLE_REG, C.DATE_START " +
+						"from CAR_LOGS C join DRIVERS D on C.DRIVER_ID = D.DRIVER_ID " +
+						"where C.DATE_STOP is null";
+		
+		PreparedStatement statment;
+		ArrayList<VisitDetails> driverListOnParking = new ArrayList<VisitDetails>();
+		
+		try {
+			statment = DatabaseConnUtils.getConnection().prepareStatement(sql);
+			ResultSet rs = statment.executeQuery();
+			
+			while (rs.next()) {
+				Driver driver = new Driver();
+				driver.setDriverId(rs.getInt(1));
+				driver.setDriverName(rs.getString(2));
+				driver.setVehicleBrand(rs.getString(3));
+				driver.setVehicleModel(rs.getString(4));
+				driver.setVehicleReg(rs.getString(5));
+				Timestamp startDate = rs.getTimestamp(6);
+				
+				VisitDetails visit = new VisitDetails();
+				visit.setDriver(driver);
+				visit.setDateStart(startDate);
+				driverListOnParking.add(visit);
+			}	
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return driverListOnParking;
 	}
 
 }

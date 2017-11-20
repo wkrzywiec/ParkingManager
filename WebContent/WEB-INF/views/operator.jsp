@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+ <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -39,7 +39,7 @@
 <div class="container">
 	<div class="col-md-1"></div>
 	<div class="col-md-10 padded" style="background-color: LightGoldenRodYellow;">
-		<h2>Hello operator of this beautiful parking loot</h2>
+		<h4>Hello operator, below there is a list of all cars that are on parking and have started their parking meter:</h4>
 	</div>
 	<div class="col-md-1"></div>
 </div>
@@ -47,9 +47,40 @@
 <div class="container">
 	<div class="col-md-1"></div>
 	<div class="col-md-10 padded" style="background-color: LightGoldenRodYellow;" >
-		
+		<h2 align="center"><b>Cars on parking loot</b></h2>
+		<table class="table table-striped" align="center">
+    		<thead>
+     	 	<tr>
+        		<th>Driver name</th>
+        		<th>Vehicle Brand</th>
+        		<th>Vehicle model</th>
+        		<th>Registration No.</th>
+        		<th>Starting date</th>
+      		</tr>
+    		</thead>
+   			<tbody>
+		<c:forEach items="${visitList}" var="visit">
+			<tr>
+			<td>${visit.driver.driverName}</td>
+			<td>${visit.driver.vehicleBrand}</td>
+			<td>${visit.driver.vehicleModel}</td>
+			<td>${visit.driver.vehicleReg}</td>
+			<td>${visit.dateStart}</div>
+			</tr>
+		</c:forEach>
+			</tbody>
+		</table>
 	</div>
 <div class="col-md-1"></div>
 </div>
+<form action="/ParkingManager/operator" method="post">
+<div class="container">
+	<div class="col-md-1"></div>
+	<div class="col-md-10 padded" style="background-color: LightGoldenRodYellow;">
+		<button type="submit" class="btn btn-primary btn-block" name="btn" value="logout">Log out</button>
+	</div>
+	<div class="col-md-1"></div>
+</div>
+</form>
 </body>
 </html>

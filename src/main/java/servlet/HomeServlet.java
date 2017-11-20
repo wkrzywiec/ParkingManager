@@ -14,6 +14,8 @@ import javax.servlet.http.HttpSession;
 
 import model.CarLog;
 import model.Driver;
+import model.User;
+import model.VisitDetails;
 import utils.DriversDAO;
 import utils.ParkingDAO;
 import utils.UsersDAO;
@@ -44,14 +46,17 @@ public class HomeServlet extends HttpServlet {
 		String errorMessage = null;
 		
 		userType = UsersDAO.getUserType(userLogin, userPassword);
-	
+		System.out.println(userType);
 		HttpSession session = request.getSession();
 		RequestDispatcher dispatcher = null;
-		if(userType == 1){
+		if(userType == User.USER_TYPE_OWNER){
 			dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/owner.jsp");
-		} else if(userType == 2){
+		} else if(userType == User.USER_TYPE_OPERATOR){
+			
+			ArrayList<VisitDetails> visitList = ParkingDAO.getDriverListOnParking();
+			request.setAttribute("visitList", visitList);
 			dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/operator.jsp");
-		} else if(userType == 3){
+		} else if(userType == User.USER_TYPE_DRIVER){
 			
 			Driver driver = DriversDAO.getDriver(userLogin);
 			session.setAttribute("driver", driver);

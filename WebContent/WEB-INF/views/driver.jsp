@@ -72,17 +72,27 @@
 	<div class="col-md-1"></div>
 	<div class="col-md-10 padded" style="background-color: LightGoldenRodYellow;">
 		<h2 align="center"><b>Your parking history</b></h2>
-		<div class="col-sm-3" align="center"><b>Start time</b></div>
-		<div class="col-sm-3" align="center"><b>Start time</b></div>
-		<div class="col-sm-3" align="center"><b>Parking time [whole hours]</b></div>
-		<div class="col-sm-3" align="center"><b>Toll [PLN]</b></div>
-		<c:forEach items="${carLogList}" var="log">
-			<div class="col-sm-3" align="right">${log.dateStart}</div>
-			<div class="col-sm-3" align="right">${log.dateStop}</div>
-			<div class="col-sm-3" align="right">${log.parkingTimeHour}</div>
-			<fmt:setLocale value="pl_PL"/>
-			<div class="col-sm-3" align="right"><fmt:formatNumber pattern="#,###.##" value = "${log.toll}" /></div>
-		</c:forEach>
+		<table class="table table-striped" align="center">
+    		<thead>
+     	 	<tr>
+        		<th>Start time</th>
+        		<th>Stop time</th>
+        		<th>Parking time [whole hours]</th>
+        		<th>Toll [PLN]</th>
+      		</tr>
+    		</thead>
+   			<tbody>
+			<c:forEach items="${carLogList}" var="log">
+			<tr>
+				<td>${log.dateStart}</td>
+				<td>${log.dateStop}</td>
+				<td>${log.parkingTimeHour}</td>
+				<fmt:setLocale value="pl_PL"/>
+				<td><fmt:formatNumber pattern="#,###.##" value = "${log.toll}" /></td>
+			</tr>
+			</c:forEach>
+			</tbody>
+		</table>
 	</div>
 	<div class="col-md-1"></div>
 </div>

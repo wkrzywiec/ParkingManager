@@ -3,8 +3,8 @@ package model;
 public class User {
 	
 	public static final int USER_TYPE_OWNER = 1;
-	public static final int USER_TYPE_OPERATOR = 1;
-	public static final int USER_TYPE_DRIVER = 1;
+	public static final int USER_TYPE_OPERATOR = 2;
+	public static final int USER_TYPE_DRIVER = 3;
 	
 	private String userLogin;
 	private String userPassword;
