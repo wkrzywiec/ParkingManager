@@ -21,8 +21,9 @@ public class ParkingTollUtils {
 
 		double totalToll = 0;
 
-		int hours = (int) Math.ceil(seconds/60/60);
-
+		int hours = (int) Math.floor(seconds/60/60);
+		hours = hours + 1;
+		
 		for(int i = 1; i <= hours; i++) {
 			totalToll= totalToll + getTollInHour(driverType, i);
 		}
@@ -30,35 +31,39 @@ public class ParkingTollUtils {
 
 	}
 
-	private static double getTollInHour(int driverType, int i){
+	public static double getTollInHour(int driverType, int hour){
 
 		if (driverType == Driver.DRIVER_VIP){	
-			return getVIPDriverTollInHour(i);
+			return getVIPDriverTollInHour(hour);
 		} else {
-			return getRegularDriverTollInHour(i);
+			return getRegularDriverTollInHour(hour);
 			}
 	}
 
-	private static double getRegularDriverTollInHour(int hour){
-			
-		if (hour == 1){
-		    return 1;
-		} else if (hour == 2){
-		    return 3;
-		} else {
-		    return 2*getRegularDriverTollInHour(hour-1);
-		}
+	public static double getRegularDriverTollInHour(int hour){
+		if(hour >= 0){
+			if (hour == 1){
+			    return 1;
+			} else if (hour == 2){
+			    return 2;
+			} else {
+			    return 2*getRegularDriverTollInHour(hour-1);
+			}
+		} else 
+			return 0;
+		
 	}
 
-	private static double getVIPDriverTollInHour(int hour){
-			
-		if (hour == 1){
+	public static double getVIPDriverTollInHour(int hour){
+		if (hour >= 0){
+			if (hour == 1){
+				return 0;
+			} else if (hour == 2){
+			    return 2;
+			} else {
+				return 1.5*getVIPDriverTollInHour(hour-1);
+			}
+		} else 
 			return 0;
-		} else if (hour == 2){
-		    return 2;
-		} else {
-			return 1.5*getVIPDriverTollInHour(hour-1);
-		}
-
 	}
 }

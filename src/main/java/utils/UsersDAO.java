@@ -77,7 +77,6 @@ public class UsersDAO {
 	public static int getUserType(String userLogin, String userPassword){
 		
 		String sql = "select USER_TYPE from USERS where USER_LOGIN = ? and USER_PASSWORD = ?";
-		System.out.println("/" + userLogin +"/" + userPassword + "/");
 		PreparedStatement statment;
 		try {
 			statment = DatabaseConnUtils.getConnection().prepareStatement(sql);

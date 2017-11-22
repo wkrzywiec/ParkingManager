@@ -35,26 +35,28 @@ public class ParkingDAO {
 		}
 	}
 
-	public static boolean startVisit(int driverId) {
+	public static int startVisit(int driverId) {
 		
+		int respond = 0;
 		String sql = "insert into CAR_LOGS(DRIVER_ID, DATE_START) values(?,CURRENT_TIMESTAMP())";
 		PreparedStatement statment;
 		try {
 			statment = DatabaseConnUtils.getConnection().prepareStatement(sql);
 			statment.setInt(1, driverId);
 			
-			statment.executeUpdate();
-			return true;
+			respond = statment.executeUpdate();
+			return respond;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
+			return respond;
 		}
 		
 	}
 	
-	public static boolean stopVisit(int driverId) {
+	public static int stopVisit(int driverId) {
 		
+		int respond = 0;
 		String sql = "update CAR_LOGS set DATE_STOP = CURRENT_TIMESTAMP()"
 				+ 	" where DRIVER_ID = ? and DATE_STOP is null";
 		
@@ -63,12 +65,12 @@ public class ParkingDAO {
 			statment = DatabaseConnUtils.getConnection().prepareStatement(sql);
 			statment.setInt(1, driverId);
 			
-			statment.executeUpdate();
-			return true;
+			respond = statment.executeUpdate();
+			return respond;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
+			return respond;
 		}
 	}
 	
