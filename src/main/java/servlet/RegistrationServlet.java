@@ -15,7 +15,8 @@ import model.User;
 import utils.DriversDAO;
 import utils.UsersDAO;
 
-@WebServlet(urlPatterns = { "/registration" })
+@WebServlet(name = "registration",
+			urlPatterns = { "/registration" })
 public class RegistrationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

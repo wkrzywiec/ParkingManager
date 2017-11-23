@@ -28,14 +28,6 @@ CREATE TABLE car_logs (
 
 );
 
-CREATE TABLE payments (
-	PAYMENT_ID int not null auto_increment,
-	DRIVER_ID INT NOT NULL,
-	VISIT_ID int not null,
-	PAYMENT_AMOUNT INT NOT NULL,
-	PAYMENT_CURRENCY VARCHAR(3),
-	primary key(PAYMENT_ID)
-);
 
 SET SQL_SAFE_UPDATES = 0;
 

@@ -70,7 +70,7 @@ public class CarLog {
 	
 	public void setParkingTimeFromSec (long parkingTimeSec){
 		double hours = parkingTimeSec/60/60;
-		this.parkingTimeHour = (int) Math.ceil(hours);
+		this.parkingTimeHour = (int) Math.floor(hours) + 1;
 	}
 	
 	

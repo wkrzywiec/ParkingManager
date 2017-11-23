@@ -108,6 +108,8 @@ public class ParkingDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
+		} finally {
+			
 		}
 	}
 	

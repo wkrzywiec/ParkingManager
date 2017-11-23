@@ -12,17 +12,6 @@
 	</resource-ref>
 
 	<display-name>Parking Manager - login</display-name>
-	<servlet>
-		<description>
-		</description>
-		<display-name>OperatorServlet</display-name>
-		<servlet-name>OperatorServlet</servlet-name>
-		<servlet-class>servlet.OperatorServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>OperatorServlet</servlet-name>
-		<url-pattern>/OperatorServlet</url-pattern>
-	</servlet-mapping>
 	
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>

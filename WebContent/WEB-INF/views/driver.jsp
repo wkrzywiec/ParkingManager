@@ -138,7 +138,7 @@
     	if (hourCount == 0){
     		return 1;
     	} else if (hourCount == 1){
-    		return 3;
+    		return 2;
     	} else {
     		return 2*tollReg(hourCount-1)
     	}

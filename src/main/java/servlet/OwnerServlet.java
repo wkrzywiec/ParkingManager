@@ -20,7 +20,7 @@ import utils.ParkingDAO;
 import utils.ParkingTollUtils;
 
 @WebServlet(name = "owner",
-urlPatterns = { "/owner" })
+			urlPatterns = { "/owner" })
 public class OwnerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

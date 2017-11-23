@@ -14,7 +14,7 @@ public class DriversDAO {
 		
 		String sql = "insert into DRIVERS(USER_ID, DRIVER_NAME, DRIVER_TYPE, VEHICLE_BRAND, VEHICLE_MODEL, VEHICLE_REG) "
 				+ "values(?,?,?,?,?,?)";
-		PreparedStatement statment;
+		PreparedStatement statment = null;
 		try {
 			statment = DatabaseConnUtils.getConnection().prepareStatement(sql);
 			statment.setInt(1, driver.getUserId());
@@ -30,6 +30,8 @@ public class DriversDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
+		} finally {
+			
 		}
 	}
 	
